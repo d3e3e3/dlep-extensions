@@ -8,7 +8,7 @@
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
 <rfc category="std" ipr="trust200902"
-     docName="draft-berger-manet-dlep-ether-credit-extension-09">
+     docName="draft-berger-manet-dlep-ether-credit-extension-07">
 
   <front>
     <title abbrev="DLEP Ethernet Credit Extension">DLEP IEEE 802.1Q Aware Credit Window
@@ -32,8 +32,25 @@
         <email>lberger@labn.net</email>
       </address>
     </author>
+   <author fullname="Donald E. Eastlake 3rd" initials="D."
+           surname="Eastlake">
+     <organization>Independent</organization>
+     <address>
+       <postal>
+         <street>2386 Panoramic Circle</street>
+         <city>Apopka</city>
+         <region>Florida</region>
+         <code>32703</code>
+         <country>USA</country>
+       </postal>        
+       <phone>+1-508-333-2270</phone>
+       <email>d3e3e3@gmail.com</email>
+     </address>
+   </author>
 
     <date/>
+    <area>Routing</area>
+    <workgroup>MANET</workgroup>
     <abstract>
       <t>
         This document defines an extension to the Dynamic Link Exchange Protocol (DLEP) that
@@ -66,8 +83,7 @@
         by the modem to identify which traffic is associated with each
         credit window.
         Credit windows may be shared or dedicated on a per flow
-        basis.
-        See <xref
+        basis. See <xref
         target="I-D.ietf-manet-dlep-da-credit-extension"/> for a
         DiffServ-based version of credit window flow control.
       </t>
@@ -79,8 +95,8 @@
         window based flow control based on DLEP destinations and
         Ethernet VLANs and Priority Code Points.  Ethernet Priority Code
         Point support is defined as part of the IEEE 802.1Q <xref
-        target="IEEE.802.1Q_2014"/> tag format and includes a 3 bit
-        "PCP" field.  The tag format also includes a 12 bit VLAN
+        target="IEEE.802.1Q_2014"/> tag format and includes a 3-bit
+        "PCP" field.  The tag format also includes a 12-bit VLAN
         identifier (VID) field.  The defined mechanism allows for credit
         windows to be shared across traffic sent to multiple DLEP
         destinations, VLANs, and PCPs, or used exclusively for traffic
@@ -162,8 +178,8 @@
       </t>
       <t>
         When VLANs are supported by a modem without support from PCPs,
-the modem SHOULD support the configuration of VLAN to credit window
-        (queue) mapping.
+        the modem SHOULD support the configuration of VLAN to credit
+        window (queue) mapping.
       </t>
       <t>
         Modems MAY support the configuration of the number of credit
@@ -171,15 +187,15 @@ the modem SHOULD support the configuration of VLAN to credit window
       </t>
       <t>
         Routers may have limits on the number of queues that they can
-        support and, perhaps, even limits in supported credit window
-        combinations, e.g., if per destination queues can even be
-        supported at all.  When modem-provided credit window information
+        support and limits on supported credit window combinations.
+        Per destination queues might not be supported at all.  When
+        modem-provided credit window information
         exceeds the capabilities of a router, the router MAY use a
         subset of the provided credit windows.  Alternatively, a router
         MAY reset the session and indicate that the extension is not
-        supported.  In either case, the mismatch of capabilities SHOULD
-        be reported to the user via normal network management
-        mechanisms, e.g., user interface or error logging.
+        supported.  In either case, the mismatch of capabilities
+        SHOULD be reported to the user via normal network management
+        mechanisms such as user interface messages or error logging.
       </t>
     </section>
 
@@ -192,7 +208,16 @@ the modem SHOULD support the configuration of VLAN to credit window
         target="I-D.ietf-manet-dlep-credit-flow-control"/>.
         The use of those mechanisms, and the introduction of a new
         extension, do not inherently introduce any additional vulnerabilities
-        above those documented in <xref target="RFC8175"/>.  The
+        above those documented in <xref target="RFC8175"/>. Wildcards for matching
+        PCP and VID fields may be convenient to match a number of
+        packet flows but could inadvertently match new flows that appear
+        after the wildcard matching has been set up or more flows than
+        intended. It is therefore RECOMMENDED that wildcards not be used
+	      unless necessary. The defined
+        extension is exposed to vulnerabilities similar to existing
+        DLEP messages and discussed in the Security Considerations section
+        of [RFC8175] such as an injected message resizing a credit window
+        to a value that results in a denial of service. The
         approach taken to Security in that document applies equally to
         the mechanism defined in this document.
       </t>
